@@ -1,6 +1,9 @@
 # SSW345-FinalBot
 
-Jon Cucci: joncucci
-Will Baltus: WilliamBaltus
-Joe Letizia: josephletizia
-Markell Torres: mtorres3
+Jonathan Cucci: *joncucci*
+
+William Baltus: *WilliamBaltus*
+
+Joseph Letizia: *josephletizia*
+
+Markell Torres: *mtorres3*
