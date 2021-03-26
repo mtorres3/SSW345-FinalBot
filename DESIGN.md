@@ -7,8 +7,8 @@ WHAT: A problem immediately surfaces for any collaborative effort on discord. Te
 
 **[Bot Description]:**
 
-Our Focus Bot is used to keep users in a Discord server on task about projects or obligations. Focus Bot will allow for easier organization amongst users who have multiple things on their schedules, such as meetings or deadlines. This bot comes from our group’s specific needs, as we often work together on multiple projects across multiple classes. Keeping up with all these assignments is often difficult to just remember off the top of your head, or to remain on task. What better way to solve this issue than to have a bot create reminders for you? 
-Focus Bot will be able to have a “conversation” with users by sending them messages based off previously passed arguments which could include the name, time, and date of the task at hand. Once loaded onto the server, the users will be prompted to choose a time-zone so that scheduling for Focus Bot will become more effective, instead of basing it off the server-side time-zone. From there, users will then be able to set up reminders for tasks, deadlines, or reoccurring meetings. Focus Bot will then send a message at that specified time and tag all users. Once a task has started, Focus Bot will send a reminder every 25 minutes for task workers to take a break, then to get back on task 5 minutes later. If we had to describe our bot in one tagline, it would be **FOCUS**.
+  Our Focus Bot is used to keep users in a Discord server on task about projects or obligations. Focus Bot will allow for easier organization amongst users who have multiple things on their schedules, such as meetings or deadlines. This bot comes from our group’s specific needs, as we often work together on multiple projects across multiple classes. Keeping up with all these assignments is often difficult to just remember off the top of your head, or to remain on task. What better way to solve this issue than to have a bot create reminders for you? 
+  Focus Bot will be able to have a “conversation” with users by sending them messages based off previously passed arguments which could include the name, time, and date of the task at hand. Once loaded onto the server, the users will be prompted to choose a time-zone so that scheduling for Focus Bot will become more effective, instead of basing it off the server-side time-zone. From there, users will then be able to set up reminders for tasks, deadlines, or reoccurring meetings. Focus Bot will then send a message at that specified time and tag all users. Once a task has started, Focus Bot will send a reminder every 25 minutes for task workers to take a break, then to get back on task 5 minutes later. If we had to describe our bot in one tagline, it would be **FOCUS**.
 
 
 **[Use Case]: Scheduling a event**
@@ -47,6 +47,7 @@ Focus Bot will be able to have a “conversation” with users by sending them m
 
 **[Design Sketches]:**
 
+<img width="794" alt="SSW345 Design Milestone 1" src="https://user-images.githubusercontent.com/54967638/112694427-b59a8100-8e58-11eb-86d0-7d976d339bfc.png">
 
 
 **[Architecture Design]:**
