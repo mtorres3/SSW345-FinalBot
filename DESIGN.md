@@ -55,9 +55,7 @@ Focus Bot will be able to have a “conversation” with users by sending them m
 
 *Component Descriptions:*
 
-*Reminders:* Users and groups will be able to set to settings for reminders to happen automatically or custom specific to a certain time. These reminders will also be modular with text, data, references, etc.
-
-*Project Management:* Projects will be able to be fully managed through the bot. Groups will be able to be formed and along with that, the creation of calendars and task management will also be features. For example, one specific feature will allow users to sign up for tasks and the bot will update the entire group when said task is completed. User stories will also be able to be formed with the bot.
-
-*Productivity Aids:*  Productivity Aids such as the Pomodoro Technique will be featured with the bot. The bot will also have methodologies such as Lean and Agile built into it to allow for modification for projects and assignments submitted with the bot.
+- *Reminders:* Users and groups will be able to set to settings for reminders to happen automatically or custom specific to a certain time. These reminders will also be modular with text, data, references, etc.
+- *Project Management:* Projects will be able to be fully managed through the bot. Groups will be able to be formed and along with that, the creation of calendars and task management will also be features. For example, one specific feature will allow users to sign up for tasks and the bot will update the entire group when said task is completed. User stories will also be able to be formed with the bot.
+- *Productivity Aids:*  Productivity Aids such as the Pomodoro Technique will be featured with the bot. The bot will also have methodologies such as Lean and Agile built into it to allow for modification for projects and assignments submitted with the bot.
 
