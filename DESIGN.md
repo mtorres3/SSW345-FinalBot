@@ -49,6 +49,8 @@ WHAT: A problem immediately surfaces for any collaborative effort on discord. Te
 
 <img width="794" alt="SSW345 Design Milestone 1" src="https://user-images.githubusercontent.com/54967638/112694427-b59a8100-8e58-11eb-86d0-7d976d339bfc.png">
 
+<img width="722" alt="SSW345 Design Milestone 2" src="https://user-images.githubusercontent.com/54967638/112767396-887ad980-8fe4-11eb-9642-0550d7cffe5f.png">
+
 
 **[Architecture Design]:**
 
