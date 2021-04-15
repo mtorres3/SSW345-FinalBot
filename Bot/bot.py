@@ -99,4 +99,5 @@ async def ping(ctx): #command name is function name
 async def slow_count():
     print(slow_count.current_loop)
 
+#jon
 bot.run('TOKEN')
