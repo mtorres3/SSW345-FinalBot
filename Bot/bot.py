@@ -98,10 +98,7 @@ async def ping(ctx): #command name is function name
 @bot.command()
 async def showTask(ctx): #command name is function name
     #GET Task from database
-    await ctx.send("(TASK NAME) is currently being executed") #Replace the send with task name once that is built
-
-@bot.command()
-async def 
+    await ctx.send("(TASK NAME) is currently being executed") #Replace the send with task name once that is built 
 
 '''
 @tasks.loop(seconds=5.0, count=5)
