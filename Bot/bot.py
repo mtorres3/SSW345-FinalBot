@@ -100,6 +100,13 @@ async def showTask(ctx): #command name is function name
     #GET Task from database
     await ctx.send("(TASK NAME) is currently being executed") #Replace the send with task name once that is built 
 
+
+#here is how to invoke command from command
+@bot.command()
+async def invoketest(ctx):
+    await ctx.send("Invoking _alarm command")
+    await ctx.invoke(bot.get_command('alarm'))
+
 '''
 @tasks.loop(seconds=5.0, count=5)
 async def slow_count():
@@ -107,3 +114,4 @@ async def slow_count():
 '''
 
 bot.run('TOKEN')
+
