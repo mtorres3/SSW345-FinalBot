@@ -103,6 +103,19 @@ async def startTask(ctx):
         await ctx.send('Break Time')
         sleep(5)
         await ctx.send("Back to work")
+        
+@bot.command()
+async def showTask(ctx): #command name is function name
+    #GET Task from database
+    await ctx.send("(TASK NAME) is currently being executed") #Replace the send with task name once that is built 
+
+
+#here is how to invoke command from command
+@bot.command()
+async def invoketest(ctx):
+    await ctx.send("Invoking _alarm command")
+    await ctx.invoke(bot.get_command('alarm'))
+
 
 '''
 @tasks.loop(seconds=5.0, count=5)
@@ -110,4 +123,13 @@ async def slow_count():
     print(slow_count.current_loop)
 '''
 
+# @bot.command(pass_context = True)
+# async def create(ctx, name, time):
+#     current_task = Task(name, time)
+#     db/pathreference.add(current_task)
+#     await ctx.send(f'Task: {name} created.')
+
+
+#jon
 bot.run('TOKEN')
+
