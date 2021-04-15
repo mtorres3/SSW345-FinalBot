@@ -95,8 +95,18 @@ async def pause(ctx):
 async def ping(ctx): #command name is function name 
     await ctx.send(f'Latency: {round(bot.latency * 1000)}ms')
 
+@bot.command()
+async def showTask(ctx): #command name is function name
+    #GET Task from database
+    await ctx.send("(TASK NAME) is currently being executed") #Replace the send with task name once that is built
+
+@bot.command()
+async def 
+
+'''
 @tasks.loop(seconds=5.0, count=5)
 async def slow_count():
     print(slow_count.current_loop)
+'''
 
 bot.run('TOKEN')
