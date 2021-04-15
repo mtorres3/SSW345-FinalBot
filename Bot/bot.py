@@ -45,32 +45,35 @@ async def alarm(ctx):  #can do use input as well, input url: str as input and re
     
     global voice
     voice =  get(bot.voice_clients, guild = ctx.guild)
-    song_there = os.path.isfile("song.mp3")
-    try:
-        if song_there:
-            os.remove("song.mp3")
+    if voice and voice.is_connected():
+        song_there = os.path.isfile("song.mp3")
+        try:
+            if song_there:
+                os.remove("song.mp3")
 
-    except PermissionError:
-        await ctx.send("Wait for current audio to end!")
-        return
-    await ctx.send("Getting audio file...")
+        except PermissionError:
+            await ctx.send("Wait for current audio to end!")
+            return
+        await ctx.send("Getting audio file...")
 
-    ydl_opts = {
-        'format': 'bestaudio/best',
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-            'preferredquality': '192',
-        }],
-    }
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        await ctx.send("Downloading audio...")
-        ydl.download([url])
-    for file in os.listdir("./"):
-        if file.endswith(".mp3"):
-            os.rename(file, "song.mp3")
-    await ctx.send("Done converting, now playing!")
-    voice.play(discord.FFmpegPCMAudio("song.mp3"))
+        ydl_opts = {
+            'format': 'bestaudio/best',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192',
+            }],
+        }
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            await ctx.send("Downloading audio...")
+            ydl.download([url])
+        for file in os.listdir("./"):
+            if file.endswith(".mp3"):
+                os.rename(file, "song.mp3")
+        await ctx.send("Done converting, now playing!")
+        voice.play(discord.FFmpegPCMAudio("song.mp3"))
+    else:
+        await ctx.send(f"Bot not in a channel")
 
 @bot.command(pass_context = True)
 async def stop(ctx):
