@@ -4,6 +4,7 @@ from discord.utils import get
 import youtube_dl
 import os
 from discord.ext import tasks
+from time import *
 
 bot = commands.Bot(command_prefix = '_')
 
@@ -95,8 +96,18 @@ async def pause(ctx):
 async def ping(ctx): #command name is function name 
     await ctx.send(f'Latency: {round(bot.latency * 1000)}ms')
 
+@bot.command()
+async def startTask(ctx):
+    for i in range(1,6):
+        sleep(25)
+        await ctx.send('Break Time')
+        sleep(5)
+        await ctx.send("Back to work")
+
+'''
 @tasks.loop(seconds=5.0, count=5)
 async def slow_count():
     print(slow_count.current_loop)
+'''
 
 bot.run('TOKEN')
