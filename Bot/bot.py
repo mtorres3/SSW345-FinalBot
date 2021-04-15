@@ -99,5 +99,11 @@ async def ping(ctx): #command name is function name
 async def slow_count():
     print(slow_count.current_loop)
 
+# @bot.command(pass_context = True)
+# async def create(ctx, name, time):
+#     current_task = Task(name, time)
+#     db/pathreference.add(current_task)
+#     await ctx.send(f'Task: {name} created.')
+
 #jon
 bot.run('TOKEN')
