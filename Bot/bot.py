@@ -98,12 +98,23 @@ async def ping(ctx): #command name is function name
 
 @bot.command()
 async def startTask(ctx):
-    for i in range(1,6):
-        sleep(25)
-        await ctx.send('Break Time')
-        sleep(5)
-        await ctx.send("Back to work")
-        
+    global taskTimer
+    taskTimer = True
+    while(taskTimer == True):
+        for i in range(1,6):
+            sleep(25*60)
+            await ctx.send('Break Time')
+            await ctx.invoke(bot.get_command('alarm'))
+            sleep(5*60)
+            await ctx.send("Back to work")
+            await ctx.invoke(bot.get_command('alarm'))
+
+@bot.command()
+async def finishTask(ctx):
+    taskTimer = False
+    #Mark task as complete in db
+    await ctx.send("Task '{task}' completed!")
+
 @bot.command()
 async def showTask(ctx): #command name is function name
     #GET Task from database
