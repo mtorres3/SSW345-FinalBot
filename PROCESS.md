@@ -9,12 +9,18 @@ User Stories: Created in Kanban board
   - /showTask command (Joe)
   - /showSchedule command (Will)
 
-Iteration 1: 4/10 - 4/17
+[Iteration 1: 4/10 - 4/17]
 
-Iteration 2: 4/18 - 4/25
+  Completed: None
 
-Completed: None
+  Incomplete: /create, /startTask, /finishTask, /showTask, /showSchedule
+  
+  Process Reflection: Using the  Scrum process has helped us sort out what tasks needed to be completed, what work was going to be assigned to each team member, and given us a good timeframe on when the user stories should be completed by.
 
-Incomplete: /create, /startTask, /finishTask, /showTask, /showSchedule
+[Iteration 2: 4/18 - 4/25]
 
-Process Reflection: N/A (currently)
+  Completed: None
+
+  Incomplete: /create, /startTask, /finishTask, /showTask, /showSchedule
+
+  Process Reflection: N/A (currently)
