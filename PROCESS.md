@@ -1,20 +1,26 @@
-Planned Process: Scrum
+*Planned Process:* Scrum
 
-Kanban Board: In "Project" tab of repo
+*Kanban Board:* In "Project" tab of repo
 
-User Stories: Created in Kanban board
+*User Stories:* Created in Kanban board
   - /create command (Jon)
   - /startTask command (Will)
   - /finishTask command (Markell)
   - /showTask command (Joe)
   - /showSchedule command (Will)
 
-Iteration 1: 4/10 - 4/17
+**[Iteration 1: 4/10 - 4/17]**
 
-Iteration 2: 4/18 - 4/25
+  Completed: None
 
-Completed: None
+  Incomplete: /create, /startTask, /finishTask, /showTask, /showSchedule
+  
+  Process Reflection: Using the  Scrum process has helped us sort out what tasks needed to be completed, what work was going to be assigned to each team member, and given us a good timeframe on when the user stories should be completed by.
+  
+  **[Iteration 2: 4/18 - 4/25]**
 
-Incomplete: /create, /startTask, /finishTask, /showTask, /showSchedule
+  Completed: None
 
-Process Reflection: N/A (currently)
+  Incomplete: /create, /startTask, /finishTask, /showTask, /showSchedule
+
+  Process Reflection: N/A (currently)
