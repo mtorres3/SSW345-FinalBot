@@ -1,16 +1,38 @@
+# Extranneous Imports
+import os
+import youtube_dl
+from time import *
+import asyncio
+
+# Discord.py imports
 import discord
 from discord.ext import commands
 from discord.utils import get
-import youtube_dl
-import os
 from discord.ext import tasks
-from time import *
-
 bot = commands.Bot(command_prefix = '_')
+
+# Firestore DB imports
+import firebase_admin
+from firebase_admin import credentials, firestore, initialize_app
+cred = credentials.Certificate('key.json')
+firebase_admin.initialize_app(cred)
+db = firestore.client()
+ref = db.collection('Servers')
+
+# Testing DB connection
+# for i in ref.stream():
+#     print(i.to_dict()['user ids'])
 
 @bot.event 
 async def on_ready():
     print("Bot online")
+
+@bot.command()
+async def update_tasks(ctx):
+    '''
+    Should be used to grab tasks from database
+    '''
+    pass
 
 @bot.command(pass_context = True)
 async def join(ctx):
@@ -128,6 +150,20 @@ async def invoketest(ctx):
     await ctx.invoke(bot.get_command('alarm'))
 
 
+
+@bot.command()
+async def test1(ctx):
+    await ctx.send("test1")
+    await asyncio.sleep(5)
+    await ctx.send("test1")
+
+@bot.command()
+async def test2(ctx):
+    await ctx.send("test2")
+    await asyncio.sleep(5)
+    await ctx.send("test2")
+
+
 '''
 @tasks.loop(seconds=5.0, count=5)
 async def slow_count():
@@ -142,5 +178,5 @@ async def slow_count():
 
 
 #jon
-bot.run('TOKEN')
+bot.run('ODMwNDYzNTM3MjkzNDI2Njk4.YHHDcA.0AS68ZQeQBbt1_pabVArWfqlrfc')
 
