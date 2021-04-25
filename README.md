@@ -1,7 +1,7 @@
 # SSW345-FinalBot
 
 Jonathan Cucci: *joncucci*
-- User Story: /create
+- User Story: /createTask
 
 William Baltus: *WilliamBaltus*
 - User Story: /StartTask
