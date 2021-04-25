@@ -4,6 +4,10 @@ import youtube_dl
 from time import *
 import asyncio
 from Task import *
+from dotenv import load_dotenv
+
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
 
 # Discord.py imports
 import discord
@@ -52,12 +56,33 @@ def get_tasks():
 # Tests successful connection to server
 @bot.event 
 async def on_ready():
-    tasks = get_tasks()
+    #tasks = get_tasks()
     print("Bot online")
 
 @bot.command()
-async def createTask(ctx):
-    await ctx.send(ctx)
+async def createTask(ctx, name = None, day = None, time = None, m = None):
+    if name == None or day == None or time == None or m == None:
+        await ctx.send('''
+**Hello!** What you said raised on error.
+You should format it like this:
+*_createTask   "Jon's Birthday"   2000/01/10   5:13   am*
+''')
+
+    else:
+        ref.document(str(ctx.guild.id)).collection('Task').document(name).set(
+        {
+            'Channel ID': ctx.channel.id,
+            'Channel Name': ctx.channel.name,
+            'User ID': ctx.author.id,
+            'User Name': ctx.author.name,
+            'Task Name': name,
+            'Date': {
+                'Day': day,
+                'Time': time,
+                'AM/PM': m
+            }
+        })
+        await ctx.send("Task: {} added :)".format(name))
     # await bot.get_channel(818916814167081030).send('hello from the other channel!')
 
 @bot.command(pass_context = True)
@@ -175,8 +200,6 @@ async def invoketest(ctx):
     await ctx.send("Invoking _alarm command")
     await ctx.invoke(bot.get_command('alarm'))
 
-
-
 @bot.command()
 async def test1(ctx):
     await ctx.send("test1")
@@ -213,4 +236,5 @@ async def slow_count():
 
 
 #jon
+bot.run(TOKEN)
 
