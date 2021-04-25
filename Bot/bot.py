@@ -11,9 +11,8 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 # Discord.py imports
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord.utils import get
-from discord.ext import tasks
 bot = commands.Bot(command_prefix = '_')
 client = discord.Client()
 global GUILD_ID, GUILD_NAME, tasks
@@ -51,6 +50,9 @@ def get_tasks():
     '''
     Should be used to grab tasks from database
     '''
+    task_L = []
+    #path = ref.document(bot.channel.id)
+    print(bot.servers)
     pass
 
 # Tests successful connection to server
@@ -58,6 +60,8 @@ def get_tasks():
 async def on_ready():
     #tasks = get_tasks()
     print("Bot online")
+    for server in bot.servers:
+        print(server.id)
 
 @bot.command()
 async def createTask(ctx, name = None, day = None, time = None, m = None):
@@ -228,13 +232,4 @@ async def slow_count():
     print(slow_count.current_loop)
 '''
 
-# @bot.command(pass_context = True)
-# async def create(ctx, name, time):
-#     current_task = Task(name, time)
-#     db/pathreference.add(current_task)
-#     await ctx.send(f'Task: {name} created.')
-
-
-#jon
 bot.run(TOKEN)
-
