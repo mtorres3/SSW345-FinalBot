@@ -3,6 +3,7 @@ import os
 import youtube_dl
 from time import *
 import asyncio
+from Task import *
 
 # Discord.py imports
 import discord
@@ -10,6 +11,21 @@ from discord.ext import commands
 from discord.utils import get
 from discord.ext import tasks
 bot = commands.Bot(command_prefix = '_')
+client = discord.Client()
+global GUILD_ID, GUILD_NAME, tasks
+GUILD_NAME, GUILD_ID = "", ""
+
+# Documentation on getting certain info
+# Keep in mind ctx is not created until called
+# See info function to see in action
+'''
+Server Name = ctx.guild.name
+Server ID = ctx.guild.id
+Channel name bot called in = ctx.channel.name
+Channel ID bot called in = ctx.channel.id
+ID of user = ctx.author
+Voice channel ID of user = ctx.author.voice.channel.name
+'''
 
 # Firestore DB imports
 import firebase_admin
@@ -20,19 +36,29 @@ db = firestore.client()
 ref = db.collection('Servers')
 
 # Testing DB connection
-# for i in ref.stream():
-#     print(i.to_dict()['user ids'])
+'''
+for i in ref.stream():
+    print(i.to_dict()['user ids'])
+'''
 
-@bot.event 
-async def on_ready():
-    print("Bot online")
+# Start of functions
 
-@bot.command()
-async def update_tasks(ctx):
+def get_tasks():
     '''
     Should be used to grab tasks from database
     '''
     pass
+
+# Tests successful connection to server
+@bot.event 
+async def on_ready():
+    tasks = get_tasks()
+    print("Bot online")
+
+@bot.command()
+async def createTask(ctx):
+    await ctx.send(ctx)
+    # await bot.get_channel(818916814167081030).send('hello from the other channel!')
 
 @bot.command(pass_context = True)
 async def join(ctx):
@@ -163,6 +189,15 @@ async def test2(ctx):
     await asyncio.sleep(5)
     await ctx.send("test2")
 
+@bot.command()
+async def info(ctx):
+    await ctx.send("Server Name: " + str(ctx.guild.name))
+    await ctx.send("Server ID: " + str(ctx.guild.id))
+    await ctx.send("Channel Name: " + str(ctx.channel.name))
+    await ctx.send("Channel ID: " + str(ctx.channel.id))
+    await ctx.send("User ID: " + str(ctx.author))
+    await ctx.send("Voice ID: " + str(ctx.author.voice.channel.name))  
+
 
 '''
 @tasks.loop(seconds=5.0, count=5)
@@ -178,5 +213,4 @@ async def slow_count():
 
 
 #jon
-bot.run('ODMwNDYzNTM3MjkzNDI2Njk4.YHHDcA.0AS68ZQeQBbt1_pabVArWfqlrfc')
 
