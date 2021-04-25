@@ -45,7 +45,6 @@ for i in ref.stream():
 '''
 
 # Start of functions
-
 def get_tasks():
     '''
     Should be used to grab tasks from database
@@ -56,12 +55,14 @@ def get_tasks():
     pass
 
 # Tests successful connection to server
+tasks = {}
 @bot.event 
 async def on_ready():
     #tasks = get_tasks()
     print("Bot online")
-    for server in bot.servers:
-        print(server.id)
+    for server in ref.stream():
+        print(server.to_dict())
+    await bot.get_channel(818916814167081030).send('notif')
 
 @bot.command()
 async def createTask(ctx, name = None, day = None, time = None, m = None):
@@ -73,7 +74,11 @@ You should format it like this:
 ''')
 
     else:
-        ref.document(str(ctx.guild.id)).collection('Task').document(name).set(
+        ref.document(ctx.guild.name).set({
+            'Server ID' : ctx.guild.id,
+            'Server Name' : ctx.guild.name
+        })
+        ref.document(ctx.guild.name).collection('Task').document(name).set(
         {
             'Channel ID': ctx.channel.id,
             'Channel Name': ctx.channel.name,
