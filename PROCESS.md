@@ -19,8 +19,10 @@
   
   **[Iteration 2: 4/18 - 4/25]**
 
-  Completed: None
+  Completed: /join, /leave, /create, /alarm, /pause, /stop, /ping (for testing purposes)  
 
-  Incomplete: /create, /startTask, /finishTask, /showTask, /showSchedule
+  In Progress: /startTask, /showTask, /finishtask
+  
+  Incomplete: /showSchedule
 
   Process Reflection: N/A (currently)
