@@ -11,16 +11,18 @@
 
 **[Iteration 1: 4/10 - 4/17]**
 
-  Completed: None
+  *Completed:* None
 
-  Incomplete: /create, /startTask, /finishTask, /showTask, /showSchedule
+  *Incomplete:* /create, /startTask, /finishTask, /showTask, /showSchedule
   
-  Process Reflection: Using the  Scrum process has helped us sort out what tasks needed to be completed, what work was going to be assigned to each team member, and given us a good timeframe on when the user stories should be completed by.
+  *Process Reflection:* Using the Scrum process has helped us sort out what tasks needed to be completed, what work was going to be assigned to each team member, and given us a good timeframe on when the user stories should be completed by.
   
   **[Iteration 2: 4/18 - 4/25]**
 
-  Completed: None
+  *Completed:* /join, /leave, /create, /alarm, /pause, /stop, /ping (for testing purposes)  
 
-  Incomplete: /create, /startTask, /finishTask, /showTask, /showSchedule
+  *In Progress:* /startTask, /showTask, /finishtask
+  
+  *Incomplete:* /showSchedule
 
-  Process Reflection: N/A (currently)
+  *Process Reflection:* N/A (currently)
