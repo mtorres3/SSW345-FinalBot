@@ -48,13 +48,10 @@ for i in ref.stream():
 def get_tasks(ctx, name=None):
     task = ref.document(ctx.guild.name).collection('Tasks').document(name).get(
         {
-            'Channel ID': ctx.channel.id,
-            'Channel Name': ctx.channel.name,
             'User ID': ctx.author.id,
             'User Name': ctx.author.name,
             'Task Name': name,
-            }
-    })
+        })
     return task
     
 # Tests successful connection to server
@@ -221,7 +218,7 @@ async def finishTask(ctx):
 @bot.command()
 async def showTask(ctx): #command name is function name
     global task_name
-    if task_name=None:
+    if task_name == None:
         await ctx.send("There is no task being done right now")
     else: 
         await ctx.send("Task In Progress: "+task_name)
