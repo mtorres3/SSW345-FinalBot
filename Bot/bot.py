@@ -15,7 +15,7 @@ from discord.ext import commands, tasks
 from discord.utils import get
 bot = commands.Bot(command_prefix = '_')
 client = discord.Client()
-global GUILD_ID, GUILD_NAME, tasks
+global GUILD_ID, GUILD_NAME, tasks, task_name
 GUILD_NAME, GUILD_ID = "", ""
 
 # Documentation on getting certain info
@@ -181,7 +181,9 @@ async def ping(ctx): #command name is function name
 
 @bot.command()
 async def startTask(ctx, name = None, num = 1):
+    global task_name
     if name == None:
+        task_name = None
         await ctx.send('''
 **Hello!** What you said raised on error.
 You should format it like this:
@@ -189,13 +191,13 @@ You should format it like this:
 ''')
 
     else:
-        task = get_tasks(name)
+        task_name = get_tasks(name)
         await ctx.send("Starting ", task, ' For ', num/2, ' Hours')
 
         try:
             asyncio.ensure_future(pomodoro(num))
         except ctx.invoke(bot.get_command('finishTask')):
-            task.Completed = 'Yes'
+            task_name.Completed = 'Yes'
             await ctx.send("Task ", name, " completed.")
 
 async def pomodoro(ctx, num = 1):
