@@ -45,7 +45,7 @@ for i in ref.stream():
 '''
 
 # Start of functions
-def get_tasks():
+def get_tasks(ctx, name=None):
     '''
     Should be used to grab tasks from database
     '''
@@ -78,13 +78,14 @@ You should format it like this:
             'Server ID' : ctx.guild.id,
             'Server Name' : ctx.guild.name
         })
-        ref.document(ctx.guild.name).collection('Task').document(name).set(
+        ref.document(ctx.guild.name).collection('Tasks').document(name).set(
         {
             'Channel ID': ctx.channel.id,
             'Channel Name': ctx.channel.name,
             'User ID': ctx.author.id,
             'User Name': ctx.author.name,
             'Task Name': name,
+            'Completed': "No",
             'Date': {
                 'Day': day,
                 'Time': time,
@@ -179,23 +180,38 @@ async def ping(ctx): #command name is function name
     await ctx.send(f'Latency: {round(bot.latency * 1000)}ms')
 
 @bot.command()
-async def startTask(ctx):
-    global taskTimer
-    taskTimer = True
-    while(taskTimer == True):
-        for i in range(1,6):
-            sleep(25*60)
-            await ctx.send('Break Time')
-            await ctx.invoke(bot.get_command('alarm'))
-            sleep(5*60)
-            await ctx.send("Back to work")
-            await ctx.invoke(bot.get_command('alarm'))
+async def startTask(ctx, name = None, num = 1):
+    if name == None:
+        await ctx.send('''
+**Hello!** What you said raised on error.
+You should format it like this:
+*_startTask  "Essay for CAL105" 4(30-min cycles) *
+''')
+
+    else:
+        task = get_tasks(name)
+        await ctx.send("Starting ", task, ' For ', num/2, ' Hours')
+
+        try:
+            asyncio.ensure_future(pomodoro(num))
+        except ctx.invoke(bot.get_command('finishTask')):
+            task.Completed = 'Yes'
+            await ctx.send("Task ", name, " completed.")
+
+async def pomodoro(ctx, num = 1):
+    #Loop thru pomodoro timer 6 times
+    for i in range(1, num):
+        await asyncio.sleep(5)
+        await ctx.send('Break Time')
+        await ctx.invoke(bot.get_command('alarm'))
+        await asyncio.sleep(1)
+        await ctx.send("Back to work")
+        await ctx.invoke(bot.get_command('alarm'))
 
 @bot.command()
 async def finishTask(ctx):
-    taskTimer = False
-    #Mark task as complete in db
-    await ctx.send("Task '{task}' completed!")
+    return True
+    
 
 @bot.command()
 async def showTask(ctx): #command name is function name
