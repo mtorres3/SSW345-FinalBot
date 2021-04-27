@@ -46,14 +46,7 @@ for i in ref.stream():
 
 # Start of functions
 def get_tasks(ctx, name=None):
-    '''
-    Should be used to grab tasks from database
-    '''
-    task_L = []
-    #path = ref.document(bot.channel.id)
-    print(bot.servers)
-    pass
-
+        
 # Tests successful connection to server
 tasks = {}
 @bot.event 
@@ -217,9 +210,11 @@ async def finishTask(ctx):
 
 @bot.command()
 async def showTask(ctx): #command name is function name
-    #GET Task from database
-    await ctx.send("(TASK NAME) is currently being executed") #Replace the send with task name once that is built 
-
+    global task_name
+    if task_name=None:
+        await ctx.send("There is no task being done right now")
+    else: 
+        await ctx.send("Task In Progress: "+task_name)
 
 #here is how to invoke command from command
 @bot.command()
