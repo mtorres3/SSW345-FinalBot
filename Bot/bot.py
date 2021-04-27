@@ -46,14 +46,17 @@ for i in ref.stream():
 
 # Start of functions
 def get_tasks(ctx, name=None):
-    '''
-    Should be used to grab tasks from database
-    '''
-    task_L = []
-    #path = ref.document(bot.channel.id)
-    print(bot.servers)
-    pass
-
+    task = ref.document(ctx.guild.name).collection('Tasks').document(name).get(
+        {
+            'Channel ID': ctx.channel.id,
+            'Channel Name': ctx.channel.name,
+            'User ID': ctx.author.id,
+            'User Name': ctx.author.name,
+            'Task Name': name,
+            }
+    })
+    return task
+    
 # Tests successful connection to server
 tasks = {}
 @bot.event 
