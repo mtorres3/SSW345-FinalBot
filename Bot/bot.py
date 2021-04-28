@@ -330,11 +330,7 @@ async def showSchedule(ctx):
     for task in server_tasks:
 
         date = task.date
-        year = now.strftime("%Y")
-        month = now.strftime("%m")
-        day = now.strftime("%d")
-        time = now.strftime("%H:%M:%S")
-        date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
+        date_time = date.strftime("%m/%d/%Y, %H:%M:%S")
 	
         await ctx.send('Name: ' + str(task.name) + '\nDate: ' + date_time + '\n\n')
 
