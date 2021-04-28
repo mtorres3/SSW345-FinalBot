@@ -100,50 +100,26 @@ async def on_ready():
 
     await bot.get_channel(818916814167081030).send('notif')
 
-# Creates a new task.. adds to database as well as current tasks list
 @bot.command()
-async def createTask(ctx, name = None, day = None, time = None, m = None):
-    global tasks
+async def help(ctx):
+    await ctx.send('''
+        **Bot Commands**
+        
+        *_join*: has Focus Bot join your Discord
+        *_leave*: has Focus Bot leave your Discord
+        
+        *_alarm*: runs alarm
+        *_stop*: stops alarm
+        *_pause*: pauses alarm
+        
+        *_ping*: sends back test with Bot
 
-    if name == None or day == None or time == None or m == None:
-        await ctx.send('''
-**Hello!** What you said raised on error.
-You should format it like this:
-*_createTask   "Jon's Birthday"   2000/01/10   5:13   am*
-''')
+        *_createTask <task name>*: creates a new task
+        *_startTask <task name>*: starts a task
+        *_finishTask <task name>*: finishes a task
 
-    else:
-        if m.lower() == 'pm':
-            time = str(int(time.split(":")[0]) + 12) + time[-3:]
-        ref.document(str(ctx.guild.id)).set({
-            'Server ID' : ctx.guild.id,
-            'Server Name' : ctx.guild.name
-        })
-        ref.document(str(ctx.guild.id)).collection('Tasks').document(name).set(
-        {
-            'Channel ID': ctx.channel.id,
-            'Channel Name': ctx.channel.name,
-            'User ID': ctx.author.id,
-            'User Name': ctx.author.name,
-            'Task Name': name,
-            'Completed': "No",
-            'Date': {
-                'Day': day,
-                'Time': time,
-            }
-        }, merge = True)
-        await ctx.send("Task: {} added :)".format(name))
-        tasks[ctx.guild.id] += \
-            [ \
-            Task(name, \
-            time, \
-            day, \
-            ctx.channel.id, \
-            ctx.channel.name, \
-            ctx.author.name, \
-            ctx.guild.id \
-            )]
-        asyncio.ensure_future(tasks[ctx.guild.id][-1].reminder())
+        *_showSchedule*: shows entire schedule
+        ''')
 
 # Bot Joins voice chat
 @bot.command(pass_context = True)
@@ -234,31 +210,6 @@ async def pause(ctx):
 async def ping(ctx): #command name is function name 
     await ctx.send(f'Latency: {round(bot.latency * 1000)}ms')
 
-
-# Starts certain task
-@bot.command()
-async def startTask(ctx, name = None):
-    if name == None:
-        await ctx.send('''
-**Hello!** What you said raised on error.
-You should format it like this:
-*_startTask  "Essay for CAL105"*
-''')
-
-    else:
-        server_tasks = tasks[ctx.guild.id]
-        for task in server_tasks:
-            if task.name == name:
-                task.is_active = True
-                await ctx.send("Starting ", task.name, ' For ', num/2, ' Hours')
-
-        try:
-            asyncio.ensure_future(startTimer)
-        except ctx.invoke(bot.get_command('finishTask')):
-            task.Completed = 'Yes'
-            await ctx.send("Task ", task.name, " completed.")
-
-
 # Creates a timer that goes off every so often
 @bot.command()
 async def startTimer(ctx):
@@ -279,28 +230,104 @@ async def stopTimer(ctx):
     timer_active = False
     await ctx.send('Pomodoro timer has been stopped. Please be patient.')
 
+# Creates a new task.. adds to database as well as current tasks list
+@bot.command()
+async def createTask(ctx, name = None, day = None, time = None, m = None):
+    global tasks
+
+    if name == None or day == None or time == None or m == None:
+        await ctx.send('''
+        **Hello!** What you said raised on error.
+        You should format it like this:
+        *_createTask   "Jon's Birthday"   2000/01/10   5:13   am*
+        ''')
+
+    else:
+        if m.lower() == 'pm':
+            time = str(int(time.split(":")[0]) + 12) + time[-3:]
+        ref.document(str(ctx.guild.id)).set({
+            'Server ID' : ctx.guild.id,
+            'Server Name' : ctx.guild.name
+        })
+        ref.document(str(ctx.guild.id)).collection('Tasks').document(name).set(
+        {
+            'Channel ID': ctx.channel.id,
+            'Channel Name': ctx.channel.name,
+            'User ID': ctx.author.id,
+            'User Name': ctx.author.name,
+            'Task Name': name,
+            'Completed': "No",
+            'Date': {
+                'Day': day,
+                'Time': time,
+            }
+        }, merge = True)
+        await ctx.send("Task: {} added :)".format(name))
+        tasks[ctx.guild.id] += \
+            [ \
+            Task(name, \
+            time, \
+            day, \
+            ctx.channel.id, \
+            ctx.channel.name, \
+            ctx.author.name, \
+            ctx.guild.id \
+            )]
+        asyncio.ensure_future(tasks[ctx.guild.id][-1].reminder())
+
+# Starts certain task
+@bot.command()
+async def startTask(ctx, name = None):
+    if name == None:
+        await ctx.send('''
+        **Hello!** What you said raised on error.
+        You should format it like this:
+        *_startTask  "Essay for CAL105"*
+        ''')
+
+    else:
+        server_tasks = tasks[ctx.guild.id]
+        for task in server_tasks:
+            if task.name == name:
+                task.is_active = True
+                await ctx.send("Starting ", task.name, ' For ', num/2, ' Hours')
+
+        try:
+            asyncio.ensure_future(startTimer)
+        except ctx.invoke(bot.get_command('finishTask')):
+            task.Completed = 'Yes'
+            await ctx.send("Task ", task.name, " completed.")
+
 # Finishes a task
 @bot.command()
 async def finishTask(ctx, name=None):
+    server_tasks = tasks[ctx.guild.id]
+
     if name == None:
         await ctx.send('''
-**Hello!** What you said raised on error.
-You should format it like this:
-*_finishTask  "Essay for CAL105" *
-''')
-
+        **Hello!** What you said raised on error.
+        You should format it like this:
+        *_finishTask  "Essay for CAL105" *
+        ''')
     else:
+        if name not in server_tasks:
+            await ctx.send(task.name+" was not found.")
+        else:
+            for task in server_tasks:
+                if name == task.name:
+                    await ctx.send(task.name+" has finished.")
+                    task.is_active = False
+                    break
         
-    
 # Shows all current tasks
 @bot.command()
 async def showTask(ctx): #command name is function name
-    global task
-    if task == None:
-        await ctx.send("There is no task being done right now")
-    else: 
-        await ctx.send("Task In Progress: " + task)
-    
+    server_tasks = tasks[ctx.guild.id]
+    for task in server_tasks:
+        if task.is_active == True:
+            await ctx.send(task.name+" is currently in progress.")
+
+# Shows 
 @bot.command()
 async def showSchedule(ctx):
     server_tasks = tasks[ctx.guild.id]
