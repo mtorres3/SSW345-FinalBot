@@ -57,10 +57,18 @@ This is more complicated to install properly. Here are the steps I took. There a
 >ON the pop up, at the bottom right, click **Environment Variables...**   
 
 A pop up like this should show now (Don't worry if you have differeing variables and values, these shouldn't affect the process): 
-  ![environment pop up](environ-pop.PNG)
-10. Under System Variables double click the variable called **PATH** (if you want the machine to recognize these ffmpeg files under all users on your machine, otherwise find and double click **PATH** under _User variables for..._)
+  ![environment pop up](environ-pop.PNG)  
+10. Under System Variables double click the variable called **PATH** (if you want the machine to recognize these ffmpeg files under all users on your machine, otherwise find and double click **PATH** under _User variables for..._)  
 11. Now click **NEW** and type in the path of the folder where you copied the FFMPEG .exe files and then press **OK**. In my case, the folder was named "FFMPEG" and it was on my C drive, so my path looked like this...
-   ![Path variable](ffmpeg-path.PNG)
+   ![Path variable](ffmpeg-path.PNG)  
+12. Click **OK** and you restart your machine! 
+
+### Testing that FFMPEG is successfully installed
+1. For WINDOWS OS: Open cmd prompt 
+2. Type in 
+>ffmpeg
+3. You should have a bunch of text pop up similar to this
+  ![ffmpeg test](ffmpeg-test.PNG)
 
  
 
