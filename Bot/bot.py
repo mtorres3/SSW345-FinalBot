@@ -105,8 +105,8 @@ async def commandHelp(ctx):
     await ctx.send('''
         **Bot Commands**
         
-        *_join*: has Focus Bot join your channel
-        *_leave*: has Focus Bot leave your channel
+        *_join* : has Focus Bot join your channel
+        *_leave* : has Focus Bot leave your channel
         
         *_alarm* : runs alarm
         *_stop* : stops alarm
@@ -114,9 +114,9 @@ async def commandHelp(ctx):
         
         *_ping* : sends back test with Bot
 
-        *_createTask <task name>* : creates a new task
-        *_startTask <task name>* : starts a task
-        *_finishTask <task name>* : finishes a task
+        *_createTask "<task name>" <YYYY/MM/DD> <Hour>:<Minutes> <am or pm>* : creates a new task
+        *_startTask "<task name>"* : starts a task
+        *_finishTask "<task name>"* : finishes a task
 
         *_showSchedule* : shows entire schedule
         ''')
@@ -289,7 +289,7 @@ async def startTask(ctx, name = None):
         for task in server_tasks:
             if task.name == name:
                 task.is_active = True
-                await ctx.send("Starting timer for ", task.name)
+                await ctx.send("Starting timer for "+task.name)
                 await ctx.invoke(bot.get_command('startTimer'), name=task.name)
         
 
