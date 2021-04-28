@@ -294,7 +294,7 @@ async def startTask(ctx, name = None):
         
 
 # Finishes a task
-@bot.command()
+@bot.command() 
 async def finishTask(ctx, name=None):
     server_tasks = tasks[ctx.guild.id]
 
