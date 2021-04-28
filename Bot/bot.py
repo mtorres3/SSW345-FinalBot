@@ -69,6 +69,7 @@ class Task:
         self.channel_name = channel_name
         self.channel_id = int(channel_id)
         self.user = user
+        self.is_active = False
 
 # Tests successful connection to server
 # Creates tasks list which allows for easy retrieval
@@ -92,6 +93,7 @@ async def on_ready():
                 items['Channel ID'], \
                 items['Channel Name'], \
                 items['User Name'], \
+                items['is_active'], \
                 server.to_dict()['Server ID'] \
                 )]
             asyncio.ensure_future(tasks[server.to_dict()['Server ID']][-1].reminder())
@@ -232,44 +234,63 @@ async def pause(ctx):
 async def ping(ctx): #command name is function name 
     await ctx.send(f'Latency: {round(bot.latency * 1000)}ms')
 
+
 # Starts certain task
 @bot.command()
-async def startTask(ctx, name = None, num = 1):
+async def startTask(ctx, name = None):
     if name == None:
         await ctx.send('''
 **Hello!** What you said raised on error.
 You should format it like this:
-*_startTask  "Essay for CAL105" 4(30-min cycles) *
+*_startTask  "Essay for CAL105"*
 ''')
 
     else:
-
-        # Use global tasks variable instead
-        # task = get_tasks(name)
-
-        await ctx.send("Starting ", task.name, ' For ', num/2, ' Hours')
+        server_tasks = tasks[ctx.guild.id]
+        for task in server_tasks:
+            if task.name == name:
+                task.is_active = True
+                await ctx.send("Starting ", task.name, ' For ', num/2, ' Hours')
 
         try:
-            asyncio.ensure_future(pomodoro(num))
+            asyncio.ensure_future(startTimer)
         except ctx.invoke(bot.get_command('finishTask')):
             task.Completed = 'Yes'
             await ctx.send("Task ", task.name, " completed.")
 
+
 # Creates a timer that goes off every so often
-async def pomodoro(ctx, num = 1):
+@bot.command()
+async def startTimer(ctx):
     #Loop thru pomodoro timer 6 times
-    for i in range(1, num):
+    timer_active = True
+    while timer_active:
         await asyncio.sleep(5)
         await ctx.send('Break Time')
         await ctx.invoke(bot.get_command('alarm'))
+        if timer_active == False:
+            break
         await asyncio.sleep(1)
         await ctx.send("Back to work")
         await ctx.invoke(bot.get_command('alarm'))
 
+@bot.command()
+async def stopTimer(ctx):
+    timer_active = False
+    await ctx.send('Pomodoro timer has been stopped. Please be patient.')
+
 # Finishes a task
 @bot.command()
-async def finishTask(ctx):
-    return True
+async def finishTask(ctx, name=None):
+    if name == None:
+        await ctx.send('''
+**Hello!** What you said raised on error.
+You should format it like this:
+*_finishTask  "Essay for CAL105" *
+''')
+
+    else:
+        
     
 # Shows all current tasks
 @bot.command()
@@ -279,6 +300,17 @@ async def showTask(ctx): #command name is function name
         await ctx.send("There is no task being done right now")
     else: 
         await ctx.send("Task In Progress: " + task)
+    
+@bot.command()
+async def showSchedule(ctx):
+    server_tasks = tasks[ctx.guild.id]
+
+    for task in server_tasks:
+        await ctx.send(\
+            'Name: ', task.name, \
+            'Day: ', task.date.day, \
+            'Time: ', task.date.time \
+            )
 
 # Invoke command from command
 @bot.command()
