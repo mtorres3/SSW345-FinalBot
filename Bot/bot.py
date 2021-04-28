@@ -79,6 +79,7 @@ tasks = {}
 async def on_ready():
     #tasks = get_tasks()
     print("Bot online")
+    print('Type "_commandHelp" to get list of commands')
     for server in ref.stream():
         tasks[server.to_dict()['Server ID']] = []
         print(server.to_dict())
@@ -104,8 +105,8 @@ async def commandHelp(ctx):
     await ctx.send('''
         **Bot Commands**
         
-        *_join*: has Focus Bot join your Discord
-        *_leave*: has Focus Bot leave your Discord
+        *_join*: has Focus Bot join your channel
+        *_leave*: has Focus Bot leave your channel
         
         *_alarm* : runs alarm
         *_stop* : stops alarm
