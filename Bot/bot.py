@@ -250,34 +250,28 @@ You should format it like this:
         for task in server_tasks:
             if task.name == name:
                 task.is_active = True
-                await ctx.send("Starting ", task.name, ' For ', num/2, ' Hours')
-
-        try:
-            asyncio.ensure_future(startTimer)
-        except ctx.invoke(bot.get_command('finishTask')):
-            task.Completed = 'Yes'
-            await ctx.send("Task ", task.name, " completed.")
+                await ctx.send("Timer starting for ", task.name)
+                await ctx.invoke(bot.get_command('startTimer'), name = task.name)
 
 
 # Creates a timer that goes off every so often
 @bot.command()
-async def startTimer(ctx):
-    #Loop thru pomodoro timer 6 times
-    timer_active = True
-    while timer_active:
+async def startTimer(ctx, name=None):
+    #Loop thru pomodoro timer until stopped
+    server_tasks = tasks[ctx.guild.id]
+    for task in server_tasks:
+        if task.name == name:
+            active_task = task
+        
+    while active_task.is_active:
         await asyncio.sleep(5)
         await ctx.send('Break Time')
         await ctx.invoke(bot.get_command('alarm'))
-        if timer_active == False:
+        if active_task.is_active == False:
             break
         await asyncio.sleep(1)
         await ctx.send("Back to work")
         await ctx.invoke(bot.get_command('alarm'))
-
-@bot.command()
-async def stopTimer(ctx):
-    timer_active = False
-    await ctx.send('Pomodoro timer has been stopped. Please be patient.')
 
 # Finishes a task
 @bot.command()
