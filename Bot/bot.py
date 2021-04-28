@@ -1,3 +1,11 @@
+'''
+Authors:
+Jon Cucci
+Markell Torres
+Will Baltus
+Joe Letizia
+'''
+
 # Extranneous Imports
 import os
 import youtube_dl
@@ -16,7 +24,7 @@ from discord.ext import commands, tasks
 from discord.utils import get
 bot = commands.Bot(command_prefix = '_')
 client = discord.Client()
-global GUILD_ID, GUILD_NAME, tasks, task
+global GUILD_ID, GUILD_NAME, tasks
 GUILD_NAME, GUILD_ID = "", ""
 
 # Documentation on getting certain info
@@ -48,10 +56,12 @@ for i in ref.stream():
 # Task Class
 class Task:
 
+    # Starts a timer, finds difference in time between the task time and right now. 
     async def reminder(self):
         # await asyncio.sleep(10)
         await bot.get_channel(self.channel_id).send("Task: {} will be starting in 15 minutes! @ everyone".format(self.name))
 
+    # Initialization
     def __init__(self, name, time, day, channel_id, channel_name, user, server):
         self.name = name
         self.date = datetime.datetime(int(day.split('/')[0]), int(day.split('/')[1]), int(day.split('/')[2]), int(time.split(':')[0]), int(time.split(':')[1]))
@@ -60,13 +70,9 @@ class Task:
         self.channel_id = int(channel_id)
         self.user = user
 
-
-# Start of functions
-def get_tasks(ctx, name=None):
-    task = ref.document(ctx.guild.name).collection('Tasks').document(name).get().to_dict()
-    return task
-
 # Tests successful connection to server
+# Creates tasks list which allows for easy retrieval
+# Starts their individual reminder times
 tasks = {}
 @bot.event 
 async def on_ready():
@@ -92,6 +98,7 @@ async def on_ready():
 
     await bot.get_channel(818916814167081030).send('notif')
 
+# Creates a new task.. adds to database as well as current tasks list
 @bot.command()
 async def createTask(ctx, name = None, day = None, time = None, m = None):
     global tasks
@@ -135,8 +142,8 @@ You should format it like this:
             ctx.guild.id \
             )]
         asyncio.ensure_future(tasks[ctx.guild.id][-1].reminder())
-    # await bot.get_channel(818916814167081030).send('hello from the other channel!')
 
+# Bot Joins voice chat
 @bot.command(pass_context = True)
 async def join(ctx):
     global voice
@@ -149,6 +156,7 @@ async def join(ctx):
 
     await ctx.send(f"Joined {channel}")
 
+# Bot leaves voice chat
 @bot.command(pass_context = True)
 async def leave(ctx):
     global voice
@@ -201,6 +209,7 @@ async def alarm(ctx):  #can do use input as well, input url: str as input and re
     else:
         await ctx.send(f"Bot not in a channel")
 
+# Stops something?
 @bot.command(pass_context = True)
 async def stop(ctx):
     voice =  get(bot.voice_clients, guild = ctx.guild)
@@ -209,6 +218,7 @@ async def stop(ctx):
     else:
         await ctx.send("No audio playing")
 
+# Pauses something?
 @bot.command(pass_context = True)
 async def pause(ctx):
     voice =  get(bot.voice_clients, guild = ctx.guild)
@@ -217,10 +227,12 @@ async def pause(ctx):
     else:
         await ctx.send("No audio playing")
 
+# Returns bot / discord server latency
 @bot.command()
 async def ping(ctx): #command name is function name 
     await ctx.send(f'Latency: {round(bot.latency * 1000)}ms')
 
+# Starts certain task
 @bot.command()
 async def startTask(ctx, name = None, num = 1):
     global task
@@ -233,7 +245,10 @@ You should format it like this:
 ''')
 
     else:
-        task = get_tasks(name)
+
+        # Use global tasks variable instead
+        # task = get_tasks(name)
+
         await ctx.send("Starting ", task.name, ' For ', num/2, ' Hours')
 
         try:
@@ -242,6 +257,7 @@ You should format it like this:
             task.Completed = 'Yes'
             await ctx.send("Task ", task.name, " completed.")
 
+# Creates a timer that goes off every so often
 async def pomodoro(ctx, num = 1):
     #Loop thru pomodoro timer 6 times
     for i in range(1, num):
@@ -252,11 +268,12 @@ async def pomodoro(ctx, num = 1):
         await ctx.send("Back to work")
         await ctx.invoke(bot.get_command('alarm'))
 
+# Finishes a task
 @bot.command()
 async def finishTask(ctx):
     return True
     
-
+# Shows all current tasks
 @bot.command()
 async def showTask(ctx): #command name is function name
     global task
@@ -265,12 +282,13 @@ async def showTask(ctx): #command name is function name
     else: 
         await ctx.send("Task In Progress: " + task)
 
-#here is how to invoke command from command
+# Invoke command from command
 @bot.command()
 async def invoketest(ctx):
     await ctx.send("Invoking _alarm command")
     await ctx.invoke(bot.get_command('alarm'))
 
+# Tests Async functions
 @bot.command()
 async def test1(ctx):
     await ctx.send("test1")
@@ -283,6 +301,7 @@ async def test2(ctx):
     await asyncio.sleep(5)
     await ctx.send("test2")
 
+# Prints all current information
 @bot.command()
 async def info(ctx):
     await ctx.send("Server Name: " + str(ctx.guild.name))
@@ -291,12 +310,5 @@ async def info(ctx):
     await ctx.send("Channel ID: " + str(ctx.channel.id))
     await ctx.send("User ID: " + str(ctx.author))
     await ctx.send("Voice ID: " + str(ctx.author.voice.channel.name))  
-
-
-'''
-@tasks.loop(seconds=5.0, count=5)
-async def slow_count():
-    print(slow_count.current_loop)
-'''
 
 bot.run(TOKEN)
