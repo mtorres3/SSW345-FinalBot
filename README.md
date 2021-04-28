@@ -46,8 +46,21 @@ This is more complicated to install properly. Here are the steps I took. There a
   ![7zip-open download](7zip-open.PNG)
 5. Open the folder and find the bin subfolder. 
 6. Open the bin folder, there you will find a few .exe files. Those are the ffmpeg binaries. Drag this 7zip window to the side. 
-7. Create a new folder in your drive. I created them in my C Drive. It is best to name the folder something easy as it will help you down the line. In my case, I named it "FFMPEg"
+7. Create a new folder in your drive. I created them in my C Drive. It is best to name the folder something easy as it will help you down the line. In my case, I named it "FFMPEG"
 8. Now you want to select the .exe files in the 7zip and copy them over to the folder you made in the C drive. It may look similar to this:
   ![7zip .exe to C drive](copy-ffmpeg.PNG)
+ 
+#### Almost Done!
+9. Next, you want your machine to know where to find these files. You want to edit your system environmental variables. 
+>For a machine with WINDOWS OS
+>Click the search icon and type in **path** and click _Edit the system environment variables_
+>ON the pop up, at the bottom right, click **Environment Variables...**   
+
+A pop up like this should show now (Don't worry if you have differeing variables and values, these shouldn't affect the process): 
+  ![environment pop up](environ-pop.PNG)
+10. Under System Variables double click the variable called **PATH** (if you want the machine to recognize these ffmpeg files under all users on your machine, otherwise find and double click **PATH** under _User variables for..._)
+11. Now click **NEW** and type in the path of the folder where you copied the FFMPEG .exe files and then press **OK**. In my case, the folder was named "FFMPEG" and it was on my C drive, so my path looked like this...
+   ![Path variable](ffmpeg-path.PNG)
+
  
 
