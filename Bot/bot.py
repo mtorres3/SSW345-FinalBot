@@ -93,32 +93,31 @@ async def on_ready():
                 items['Channel ID'], \
                 items['Channel Name'], \
                 items['User Name'], \
-                items['is_active'], \
                 server.to_dict()['Server ID'] \
                 )]
             asyncio.ensure_future(tasks[server.to_dict()['Server ID']][-1].reminder())
 
     await bot.get_channel(818916814167081030).send('notif')
 
-@bot.command()
-async def help(ctx):
+@bot.command(pass_context = True)
+async def commandHelp(ctx):
     await ctx.send('''
         **Bot Commands**
         
         *_join*: has Focus Bot join your Discord
         *_leave*: has Focus Bot leave your Discord
         
-        *_alarm*: runs alarm
-        *_stop*: stops alarm
-        *_pause*: pauses alarm
+        *_alarm* : runs alarm
+        *_stop* : stops alarm
+        *_pause* : pauses alarm
         
-        *_ping*: sends back test with Bot
+        *_ping* : sends back test with Bot
 
-        *_createTask <task name>*: creates a new task
-        *_startTask <task name>*: starts a task
-        *_finishTask <task name>*: finishes a task
+        *_createTask <task name>* : creates a new task
+        *_startTask <task name>* : starts a task
+        *_finishTask <task name>* : finishes a task
 
-        *_showSchedule*: shows entire schedule
+        *_showSchedule* : shows entire schedule
         ''')
 
 # Bot Joins voice chat
