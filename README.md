@@ -25,17 +25,19 @@ Markell Torres: *mtorres3*
 2. Discord.py Voice: voice commands for discord bot, does not install by default
 3. FFMpeg: this converts a video into a format that discord can understand, think of it as an audio file compiler
 
-##### Youtube_dl  
+#### Youtube_dl  
 You can use a package manager, such as pip to get this. Simply run this command to install:
 > pip install youtube_dl  
 > pip install --upgrade youtube-dl  
-> You can learn more about it [Here](https://pypi.org/project/youtube_dl/)  
+You can learn more about it [Here](https://pypi.org/project/youtube_dl/)    
 
-##### Discord.py Voice  
+#### Discord.py Voice  
 You can use a package manager, such as pip to get this. Simply run this command to install:
 > pip install -U discord.py[voice]  
 
-##### FFMpeg 
+#### FFMpeg 
 This is more complicated to install properly. Here are the steps to do so
 1. The link to downlod ffmpeg is [Here](https://www.gyan.dev/ffmpeg/builds/)
-2. When you arrive at the page, you will scroll down and see something like this
+2. When you arrive at the page, you will scroll down and see something like this  
+  ![FFMpeg home page](/7zip-ffmpeg.png)
+
