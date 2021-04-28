@@ -52,7 +52,7 @@ class Task:
         # await asyncio.sleep(10)
         await bot.get_channel(self.channel_id).send("Task: {} will be starting in 15 minutes! @ everyone".format(self.name))
 
-    def __init__(self, name = '', time = '', day = '', channel_id = '', channel_name = '', user = '', server = ''):
+    def __init__(self, name, time, day, channel_id, channel_name, user, server):
         self.name = name
         self.date = datetime.datetime(int(day.split('/')[0]), int(day.split('/')[1]), int(day.split('/')[2]), int(time.split(':')[0]), int(time.split(':')[1]))
         self.server = server
