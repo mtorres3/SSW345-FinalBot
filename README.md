@@ -52,9 +52,9 @@ This is more complicated to install properly. Here are the steps I took. There a
  
 #### Almost Done!
 9. Next, you want your machine to know where to find these files. You want to edit your system environmental variables. 
->For a machine with WINDOWS OS
->Click the search icon and type in **path** and click _Edit the system environment variables_
->ON the pop up, at the bottom right, click **Environment Variables...**   
+>For a machine with WINDOWS OS  
+>Click the search icon and type in **path** and click _Edit the system environment variables_  
+>ON the pop up, at the bottom right, click **Environment Variables...**     
 
 A pop up like this should show now (Don't worry if you have differeing variables and values, these shouldn't affect the process): 
   ![environment pop up](images/environ-pop.PNG)  
