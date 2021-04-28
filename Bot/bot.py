@@ -2,8 +2,9 @@
 import os
 import youtube_dl
 from time import *
+from datetime import *
+import datetime
 import asyncio
-from Task import *
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -44,11 +45,27 @@ for i in ref.stream():
     print(i.to_dict()['user ids'])
 '''
 
+# Task Class
+class Task:
+
+    async def reminder(self):
+        # await asyncio.sleep(10)
+        await bot.get_channel(self.channel_id).send("Task: {} will be starting in 15 minutes! @ everyone".format(self.name))
+
+    def __init__(self, name = '', time = '', day = '', channel_id = '', channel_name = '', user = '', server = ''):
+        self.name = name
+        self.date = datetime.datetime(int(day.split('/')[0]), int(day.split('/')[1]), int(day.split('/')[2]), int(time.split(':')[0]), int(time.split(':')[1]))
+        self.server = server
+        self.channel_name = channel_name
+        self.channel_id = int(channel_id)
+        self.user = user
+
+
 # Start of functions
 def get_tasks(ctx, name=None):
     task = ref.document(ctx.guild.name).collection('Tasks').document(name).get().to_dict()
     return task
-    
+
 # Tests successful connection to server
 tasks = {}
 @bot.event 
@@ -56,11 +73,29 @@ async def on_ready():
     #tasks = get_tasks()
     print("Bot online")
     for server in ref.stream():
+        tasks[server.to_dict()['Server ID']] = []
         print(server.to_dict())
+        for task in ref.document(str(server.to_dict()['Server ID'])).collection('Tasks').get():
+            items = task.to_dict()
+            print(items)
+            tasks[server.to_dict()['Server ID']] += \
+                [ \
+                Task(items['Task Name'], \
+                items['Date']['Time'], \
+                items['Date']['Day'], \
+                items['Channel ID'], \
+                items['Channel Name'], \
+                items['User Name'], \
+                server.to_dict()['Server ID'] \
+                )]
+            asyncio.ensure_future(tasks[server.to_dict()['Server ID']][-1].reminder())
+
     await bot.get_channel(818916814167081030).send('notif')
 
 @bot.command()
 async def createTask(ctx, name = None, day = None, time = None, m = None):
+    global tasks
+
     if name == None or day == None or time == None or m == None:
         await ctx.send('''
 **Hello!** What you said raised on error.
@@ -69,11 +104,13 @@ You should format it like this:
 ''')
 
     else:
-        ref.document(ctx.guild.name).set({
+        if m.lower() == 'pm':
+            time = str(int(time.split(":")[0]) + 12) + time[-3:]
+        ref.document(str(ctx.guild.id)).set({
             'Server ID' : ctx.guild.id,
             'Server Name' : ctx.guild.name
         })
-        ref.document(ctx.guild.name).collection('Tasks').document(name).set(
+        ref.document(str(ctx.guild.id)).collection('Tasks').document(name).set(
         {
             'Channel ID': ctx.channel.id,
             'Channel Name': ctx.channel.name,
@@ -84,10 +121,20 @@ You should format it like this:
             'Date': {
                 'Day': day,
                 'Time': time,
-                'AM/PM': m
             }
-        })
+        }, merge = True)
         await ctx.send("Task: {} added :)".format(name))
+        tasks[ctx.guild.id] += \
+            [ \
+            Task(name, \
+            time, \
+            day, \
+            ctx.channel.id, \
+            ctx.channel.name, \
+            ctx.author.name, \
+            ctx.guild.id \
+            )]
+        asyncio.ensure_future(tasks[ctx.guild.id][-1].reminder())
     # await bot.get_channel(818916814167081030).send('hello from the other channel!')
 
 @bot.command(pass_context = True)
