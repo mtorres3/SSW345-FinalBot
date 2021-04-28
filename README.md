@@ -41,5 +41,13 @@ This is more complicated to install properly. Here are the steps I took. There a
 2. When you arrive at the page, you will scroll down and see something like this. Download and install the 7-zip Utility, shown below.
   ![FFMpeg home page](7zip-ffmpeg.PNG)  
 3. Scroll down some more until you find this:  
-  ![FFMpeg full download link](full-ffmpeg.PNG)
+  ![FFMpeg full download link](full-ffmpeg.PNG)  
+4. Open the 7zip utility and open the ffmpeg folder you downloaded, it should look similar to this:
+  ![7zip-open download](7zip-open.PNG)
+5. Open the folder and find the bin subfolder. 
+6. Open the bin folder, there you will find a few .exe files. Those are the ffmpeg binaries. Drag this 7zip window to the side. 
+7. Create a new folder in your drive. I created them in my C Drive. It is best to name the folder something easy as it will help you down the line. In my case, I named it "FFMPEg"
+8. Now you want to select the .exe files in the 7zip and copy them over to the folder you made in the C drive. It may look similar to this:
+  ![7zip .exe to C drive](copy-ffmpeg.PNG)
+ 
 
