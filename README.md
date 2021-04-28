@@ -36,8 +36,10 @@ You can use a package manager, such as pip to get this. Simply run this command 
 > pip install -U discord.py[voice]  
 
 #### FFMpeg 
-This is more complicated to install properly. Here are the steps to do so
+This is more complicated to install properly. Here are the steps I took. There are many different ways to do this FYI. 
 1. The link to downlod ffmpeg is [Here](https://www.gyan.dev/ffmpeg/builds/)
-2. When you arrive at the page, you will scroll down and see something like this  
-  ![FFMpeg home page](7zip-ffmpeg.PNG)
+2. When you arrive at the page, you will scroll down and see something like this. Download and install the 7-zip Utility, shown below.
+  ![FFMpeg home page](7zip-ffmpeg.PNG)  
+3. Scroll down some more until you find this:  
+  ![FFMpeg full download link](full-ffmpeg.PNG)
 
