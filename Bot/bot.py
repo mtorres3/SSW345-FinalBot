@@ -235,9 +235,7 @@ async def ping(ctx): #command name is function name
 # Starts certain task
 @bot.command()
 async def startTask(ctx, name = None, num = 1):
-    global task
     if name == None:
-        task = None
         await ctx.send('''
 **Hello!** What you said raised on error.
 You should format it like this:
