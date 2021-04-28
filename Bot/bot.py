@@ -313,20 +313,17 @@ async def finishTask(ctx, name=None):
         *_finishTask  "Essay for CAL105" *
         ''')
     else:
-        #check if Task name provided exists
+        #check if Task name provided exists, if it does, end task
+        # else then indicate
         for task in server_tasks:
             if name == task.name:
                 counter = counter + 1
+                await ctx.send(task.name + " has finished.")
+                task.is_active = False
+                break
         
         if counter < 1:
             await ctx.send(name + " was not found.")
-                    
-        else:
-            for task in server_tasks:
-                if name == task.name:
-                    await ctx.send(task.name + " has finished.")
-                    task.is_active = False
-                    break
         
 # Shows all current tasks
 @bot.command()
