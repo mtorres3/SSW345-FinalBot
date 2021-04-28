@@ -153,7 +153,7 @@ async def leave(ctx):
 @bot.command(pass_context = True)
 async def alarm(ctx):  #can do use input as well, input url: str as input and remove hard coded url
     #if url is None:
-    url = 'https://www.youtube.com/watch?v=LzxCJzM4xLo'
+    url = 'https://www.youtube.com/watch?v=WqigX_aW0Lo' #new url for alarm
     
     global voice
     voice =  get(bot.voice_clients, guild = ctx.guild)
