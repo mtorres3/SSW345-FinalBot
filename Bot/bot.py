@@ -306,11 +306,11 @@ async def finishTask(ctx, name=None):
         ''')
     else:
         if name not in server_tasks:
-            await ctx.send(task.name+" was not found.")
+            await ctx.send(task.name + " was not found.")
         else:
             for task in server_tasks:
                 if name == task.name:
-                    await ctx.send(task.name+" has finished.")
+                    await ctx.send(task.name + " has finished.")
                     task.is_active = False
                     break
         
@@ -328,11 +328,7 @@ async def showSchedule(ctx):
     server_tasks = tasks[ctx.guild.id]
 
     for task in server_tasks:
-        await ctx.send(\
-            'Name: ', task.name, \
-            'Day: ', task.date.day, \
-            'Time: ', task.date.time \
-            )
+        await ctx.send('Name: ' + task.name + '\nDay: ' + task.date.day + '\nTime: ' + task.date.time + '\n')
 
 # Invoke command from command
 @bot.command()
