@@ -39,5 +39,5 @@ You can use a package manager, such as pip to get this. Simply run this command 
 This is more complicated to install properly. Here are the steps to do so
 1. The link to downlod ffmpeg is [Here](https://www.gyan.dev/ffmpeg/builds/)
 2. When you arrive at the page, you will scroll down and see something like this  
-  ![FFMpeg home page](/7zip-ffmpeg.png)
+  ![FFMpeg home page](7zip-ffmpeg.PNG)
 
