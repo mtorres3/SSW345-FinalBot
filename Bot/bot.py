@@ -327,7 +327,7 @@ async def showSchedule(ctx):
     server_tasks = tasks[ctx.guild.id]
 
     for task in server_tasks:
-        await ctx.send('Name: ' + task.name + '\nDay: ' + task.date.day + '\nTime: ' + task.date.time + '\n')
+        await ctx.send('Name: ' + str(task.name) + '\nDay: ' + str(task.date.day) + '\nTime: ' + str(task.date.time) + '\n')
 
 # Invoke command from command
 @bot.command()
