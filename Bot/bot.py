@@ -185,7 +185,7 @@ async def alarm(ctx):  #can do use input as well, input url: str as input and re
         #await ctx.send("Done converting, now playing!")
         voice.play(discord.FFmpegPCMAudio("song.mp3"))
     else:
-        await ctx.send(f"Bot not in a channel")
+        await ctx.send(f" Cant play alarm, bot not in a channel")
 
 # Stops something?
 @bot.command(pass_context = True)
@@ -285,6 +285,7 @@ async def createTask(ctx, name = None, day = None, time = None, m = None):
 # Starts certain task
 @bot.command()
 async def startTask(ctx, name = None):
+    await ctx.invoke(bot.get_command('join'))
     if name == None:
         await ctx.send('''
         **Hello!** What you said raised on error.
