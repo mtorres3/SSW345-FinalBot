@@ -12,6 +12,7 @@ import youtube_dl
 from time import *
 from datetime import *
 import datetime
+import pytz
 import asyncio
 from dotenv import load_dotenv
 
@@ -59,12 +60,13 @@ class Task:
     # Starts a timer, finds difference in time between the task time and right now. 
     async def reminder(self):
         # await asyncio.sleep(10)
-        await bot.get_channel(self.channel_id).send("Task: {} will be starting in 15 minutes! @ everyone".format(self.name))
+        await bot.get_channel(self.channel_id).send((self.date - datetime.datetime.now(pytz.timezone('US/Eastern'))).seconds)
+        await bot.get_channel(self.channel_id).send("Task: {} is starting! @ everyone".format(self.name))
 
     # Initialization
     def __init__(self, name, time, day, channel_id, channel_name, user, server):
         self.name = name
-        self.date = datetime.datetime(int(day.split('/')[0]), int(day.split('/')[1]), int(day.split('/')[2]), int(time.split(':')[0]), int(time.split(':')[1]))
+        self.date = datetime.datetime(int(day.split('/')[0]), int(day.split('/')[1]), int(day.split('/')[2]), int(time.split(':')[0]), int(time.split(':')[1]), tzinfo = timezone.est)
         self.server = server
         self.channel_name = channel_name
         self.channel_id = int(channel_id)
