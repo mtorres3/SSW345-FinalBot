@@ -81,6 +81,7 @@ tasks = {}
 async def on_ready():
     #tasks = get_tasks()
     print("Bot online")
+    print('Type "_commandHelp" to get list of commands')
     for server in ref.stream():
         tasks[server.to_dict()['Server ID']] = []
         print(server.to_dict())
@@ -106,8 +107,8 @@ async def commandHelp(ctx):
     await ctx.send('''
         **Bot Commands**
         
-        *_join*: has Focus Bot join your Discord
-        *_leave*: has Focus Bot leave your Discord
+        *_join* : has Focus Bot join your channel
+        *_leave* : has Focus Bot leave your channel
         
         *_alarm* : runs alarm
         *_stop* : stops alarm
@@ -115,9 +116,9 @@ async def commandHelp(ctx):
         
         *_ping* : sends back test with Bot
 
-        *_createTask <task name>* : creates a new task
-        *_startTask <task name>* : starts a task
-        *_finishTask <task name>* : finishes a task
+        *_createTask "<task name>" <YYYY/MM/DD> <Hour>:<Minutes> <am or pm>* : creates a new task
+        *_startTask "<task name>"* : starts a task
+        *_finishTask "<task name>"* : finishes a task
 
         *_showSchedule* : shows entire schedule
         ''')
@@ -154,7 +155,7 @@ async def leave(ctx):
 @bot.command(pass_context = True)
 async def alarm(ctx):  #can do use input as well, input url: str as input and remove hard coded url
     #if url is None:
-    url = 'https://www.youtube.com/watch?v=LzxCJzM4xLo'
+    url = 'https://www.youtube.com/watch?v=WqigX_aW0Lo' #new url for alarm
     
     global voice
     voice =  get(bot.voice_clients, guild = ctx.guild)
@@ -167,7 +168,7 @@ async def alarm(ctx):  #can do use input as well, input url: str as input and re
         except PermissionError:
             await ctx.send("Wait for current audio to end!")
             return
-        await ctx.send("Getting audio file...")
+        #await ctx.send("Getting audio file...")
 
         ydl_opts = {
             'format': 'bestaudio/best',
@@ -178,15 +179,15 @@ async def alarm(ctx):  #can do use input as well, input url: str as input and re
             }],
         }
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            await ctx.send("Downloading audio...")
+            #await ctx.send("Downloading audio...")
             ydl.download([url])
         for file in os.listdir("./"):
             if file.endswith(".mp3"):
                 os.rename(file, "song.mp3")
-        await ctx.send("Done converting, now playing!")
+        #await ctx.send("Done converting, now playing!")
         voice.play(discord.FFmpegPCMAudio("song.mp3"))
     else:
-        await ctx.send(f"Bot not in a channel")
+        await ctx.send(f" Cant play alarm, bot not in a channel")
 
 # Stops something?
 @bot.command(pass_context = True)
@@ -221,13 +222,21 @@ async def startTimer(ctx, name=None):
             active_task = task
         
     while active_task.is_active:
-        await asyncio.sleep(5)
+        await asyncio.sleep(25 * 60)
+        if active_task.is_active == False:
+            break
         await ctx.send('Break Time')
+        if active_task.is_active == False:
+            break
         await ctx.invoke(bot.get_command('alarm'))
         if active_task.is_active == False:
             break
-        await asyncio.sleep(1)
+        await asyncio.sleep(5 * 60)
+        if active_task.is_active == False:
+            break
         await ctx.send("Back to work")
+        if active_task.is_active == False:
+            break
         await ctx.invoke(bot.get_command('alarm'))
 
 # Creates a new task.. adds to database as well as current tasks list
@@ -278,6 +287,7 @@ async def createTask(ctx, name = None, day = None, time = None, m = None):
 # Starts certain task
 @bot.command()
 async def startTask(ctx, name = None):
+    await ctx.invoke(bot.get_command('join'))
     if name == None:
         await ctx.send('''
         **Hello!** What you said raised on error.
@@ -290,7 +300,7 @@ async def startTask(ctx, name = None):
         for task in server_tasks:
             if task.name == name:
                 task.is_active = True
-                await ctx.send("Starting timer for ", task.name)
+                await ctx.send("Starting timer for "+task.name)
                 await ctx.invoke(bot.get_command('startTimer'), name=task.name)
         
 
@@ -298,7 +308,7 @@ async def startTask(ctx, name = None):
 @bot.command() 
 async def finishTask(ctx, name=None):
     server_tasks = tasks[ctx.guild.id]
-
+    counter = 0
     if name == None:
         await ctx.send('''
         **Hello!** What you said raised on error.
@@ -306,14 +316,17 @@ async def finishTask(ctx, name=None):
         *_finishTask  "Essay for CAL105" *
         ''')
     else:
-        if name not in server_tasks:
-            await ctx.send(task.name+" was not found.")
-        else:
-            for task in server_tasks:
-                if name == task.name:
-                    await ctx.send(task.name+" has finished.")
-                    task.is_active = False
-                    break
+        #check if Task name provided exists, if it does, end task
+        # else then indicate
+        for task in server_tasks:
+            if name == task.name:
+                counter = counter + 1
+                await ctx.send(task.name + " has finished.")
+                task.is_active = False
+                break
+        
+        if counter < 1:
+            await ctx.send(name + " was not found.")
         
 # Shows all current tasks
 @bot.command()
@@ -329,11 +342,11 @@ async def showSchedule(ctx):
     server_tasks = tasks[ctx.guild.id]
 
     for task in server_tasks:
-        await ctx.send(\
-            'Name: ', task.name, \
-            'Day: ', task.date.day, \
-            'Time: ', task.date.time \
-            )
+
+        date = task.date
+        date_time = date.strftime("%m/%d/%Y, %H:%M:%S")
+	
+        await ctx.send('Name: ' + str(task.name) + '\nDate: ' + date_time + '\n\n')
 
 # Invoke command from command
 @bot.command()
