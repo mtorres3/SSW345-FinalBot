@@ -15,6 +15,8 @@ import datetime
 import pytz
 import asyncio
 from dotenv import load_dotenv
+import requests
+import json
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -225,7 +227,9 @@ async def startTimer(ctx, name=None):
         await asyncio.sleep(25 * 60)
         if active_task.is_active == False:
             break
-        await ctx.send('Break Time')
+        #await ctx.send('Break Time')
+        #break time and qote from API
+        await ctx.invoke(bot.get_command('getQuote'))
         if active_task.is_active == False:
             break
         await ctx.invoke(bot.get_command('alarm'))
@@ -250,6 +254,7 @@ async def createTask(ctx, name = None, day = None, time = None, m = None):
         You should format it like this:
         *_createTask   "Jon's Birthday"   2000/01/10   5:13   am*
         ''')
+
 
     else:
         if m.lower() == 'pm':
@@ -366,6 +371,27 @@ async def test2(ctx):
     await ctx.send("test2")
     await asyncio.sleep(5)
     await ctx.send("test2")
+
+@bot.command()
+async def getTime(ctx):
+    timeURL = 'http://worldclockapi.com/api/json/utc/now'
+    timeResponse = requests.get(timeURL)
+    json_data = json.loads(timeResponse.text)
+    time = json_data['currentDateTime']
+    desiredTime = time[11:16]
+    print("The UTC time is: " + desiredTime)
+    await ctx.send('The UTC time is: ' + desiredTime)
+
+@bot.command()
+async def getQuote(ctx):
+    inspirationURL = 'https://zenquotes.io/api/random'
+    quoteResponse = requests.get(inspirationURL)
+    json_dataInspire = json.loads(quoteResponse.text)
+    quote = json_dataInspire[0]['q'] + " -" + json_dataInspire[0]['a']
+    #print('Break time! Here is an inspirational quote for your next sprint!')
+    print(quote)
+    await ctx.send('Break time! Here is an inspirational quote for your next sprint!')
+    await ctx.send(quote)
 
 # Prints all current information
 @bot.command()
