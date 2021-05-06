@@ -52,4 +52,4 @@ Gregg's A-Team plans to continue development of FocusBot. As noted earlier, this
 
 Aside from fixing the limitations, Gregg's A-Team hopes to find this bot being used around many different servers so that others can get use from it just as we have!
 
-## Link to Screencast
+## [Link to Screencast](https://www.youtube.com/watch?v=qR4wtfvxxCM)
