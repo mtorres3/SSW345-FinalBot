@@ -59,16 +59,24 @@ for i in ref.stream():
 # Task Class
 class Task:
 
+    # , tzinfo = pytz.timezone(tz)
+    # pytz.timezone(self.tz))
+
+    '''
+    Still need to correctly implement timezones. using pytz gave us a deficit of 56 minutes for some reason.
+    '''
     # Starts a timer, finds difference in time between the task time and right now. 
     async def reminder(self):
-        # await asyncio.sleep(10)
-        await bot.get_channel(self.channel_id).send((self.date - datetime.datetime.now(pytz.timezone('US/Eastern'))).seconds)
+        # await bot.get_channel(self.channel_id).send(self.date)
+        # await bot.get_channel(self.channel_id).send((self.date - datetime.datetime.now()).total_seconds())
+        await asyncio.sleep((self.date - datetime.datetime.now()).total_seconds())
         await bot.get_channel(self.channel_id).send("Task: {} is starting! @ everyone".format(self.name))
 
     # Initialization
-    def __init__(self, name, time, day, channel_id, channel_name, user, server):
+    def __init__(self, name, time, day, tz, channel_id, channel_name, user, server):
         self.name = name
-        self.date = datetime.datetime(int(day.split('/')[0]), int(day.split('/')[1]), int(day.split('/')[2]), int(time.split(':')[0]), int(time.split(':')[1]), tzinfo = timezone.est)
+        self.date = datetime.datetime(int(day.split('/')[0]), int(day.split('/')[1]), int(day.split('/')[2]), int(time.split(':')[0]), int(time.split(':')[1]))
+        self.tz = tz
         self.server = server
         self.channel_name = channel_name
         self.channel_id = int(channel_id)
@@ -95,6 +103,7 @@ async def on_ready():
                 Task(items['Task Name'], \
                 items['Date']['Time'], \
                 items['Date']['Day'], \
+                ref.document(str(server.to_dict()['Server ID'])).get().to_dict()['timezone'],
                 items['Channel ID'], \
                 items['Channel Name'], \
                 items['User Name'], \
@@ -259,10 +268,7 @@ async def createTask(ctx, name = None, day = None, time = None, m = None):
     else:
         if m.lower() == 'pm':
             time = str(int(time.split(":")[0]) + 12) + time[-3:]
-        ref.document(str(ctx.guild.id)).set({
-            'Server ID' : ctx.guild.id,
-            'Server Name' : ctx.guild.name
-        })
+
         ref.document(str(ctx.guild.id)).collection('Tasks').document(name).set(
         {
             'Channel ID': ctx.channel.id,
@@ -282,6 +288,7 @@ async def createTask(ctx, name = None, day = None, time = None, m = None):
             Task(name, \
             time, \
             day, \
+            ref.document(str(ctx.guild.id)).get().to_dict()['timezone'], \
             ctx.channel.id, \
             ctx.channel.name, \
             ctx.author.name, \
@@ -371,6 +378,22 @@ async def test2(ctx):
     await ctx.send("test2")
     await asyncio.sleep(5)
     await ctx.send("test2")
+
+@bot.command()
+async def setTimezone(ctx, arg):
+
+    if arg in pytz.all_timezones:
+        ref.document(str(ctx.guild.id)).set({
+            'Server ID' : ctx.guild.id,
+            'Server Name' : ctx.guild.name,
+            'timezone' : arg
+        })
+        await ctx.send(f"Timezone set to {arg}")
+
+    else:
+        compatible_timezones = '\nGMT\nUS/Alaska\nUS/Arizona\nUS/Central\nUS/Eastern\nUS/Hawaii\nUS/Mountain\nUS/Pacific\nUTC'
+        await ctx.send(f''' Hello! You entered an incompatible timezone. Enter one of the following: {compatible_timezones}''')
+        # print(list(filter(lambda tz: len(tz.split('/')[0]) <= 3, pytz.common_timezones)))
 
 @bot.command()
 async def getTime(ctx):
