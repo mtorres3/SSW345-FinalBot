@@ -19,6 +19,8 @@ Extra features include:
 * Pause/Stop: To end the alarm after you've returned from your 5 minute break (or alarm will automatically end after 5 seconds)
 * Ping: To see user's ping on the server
 * GetQuote: Displays an inspirational quote to the user
+* Reminder: Sends user a reminder message 15 minutes before the task scheduled time
+* Help: Show list of commands
 
 ## Reflection
 
