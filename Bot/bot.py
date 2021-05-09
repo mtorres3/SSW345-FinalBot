@@ -70,7 +70,7 @@ class Task:
         # await bot.get_channel(self.channel_id).send(self.date)
         # await bot.get_channel(self.channel_id).send((self.date - datetime.datetime.now()).total_seconds())
         await asyncio.sleep((self.date - datetime.datetime.now()).total_seconds())
-        await bot.get_channel(self.channel_id).send("Task: {} is starting! @ everyone".format(self.name))
+        await bot.get_channel(self.channel_id).send("Task: {} is starting! @everyone".format(self.name))
 
     # Initialization
     def __init__(self, name, time, day, tz, channel_id, channel_name, user, server):
